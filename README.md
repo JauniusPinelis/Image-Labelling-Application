@@ -1,0 +1,1 @@
+An application, where users can users identify, mark and label objects in images.
