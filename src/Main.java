@@ -1,22 +1,32 @@
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class Main extends JFrame {
 	
 	JFileChooser chooser;
 	String choosertitle, fileDirectory,fileName;
-	Image img;
+	BufferedImage img;
+	AnImagePanel panel;
 
     public Main() {
+    	img = null;
     	initMenus();
     	initGUI();
     	
@@ -24,11 +34,14 @@ public class Main extends JFrame {
     }
     
     public final void initGUI(){
+    	 add(getContent());
     	 setTitle("Simple example");
          setSize(800, 600);
          setLocationRelativeTo(null);
          setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+    
+    
     
     public final void initMenus(){
     	JMenuBar menubar = new JMenuBar();
@@ -75,15 +88,24 @@ public class Main extends JFrame {
     	 chooser.setAcceptAllFileFilterUsed(false);
     	    //   
     	    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-    	      System.out.println("getCurrentDirectory(): "
-    	         +  chooser.getCurrentDirectory());
-    	      System.out.println("getSelectedFile() : "
-    	         +  chooser.getSelectedFile());
+    	      fileDirectory = chooser.getCurrentDirectory().getAbsolutePath();
+    	      fileName = chooser.getSelectedFile().getAbsolutePath();
+    	      System.out.println(fileDirectory);
+    	      System.out.println(fileName);
+    	      panel.loadImage2();
+    	      
     	      }
     	    else {
     	      System.out.println("No Selection ");
     	      }
     }
+    
+    private JScrollPane getContent() {
+        panel = new AnImagePanel();
+        JScrollPane scrollPane = new JScrollPane(panel);
+        return scrollPane;
+    }
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
