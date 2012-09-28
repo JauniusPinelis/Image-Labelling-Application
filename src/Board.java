@@ -42,6 +42,7 @@ public class Board extends JPanel implements MouseMotionListener {
 	  private int squareCount = 0;
 
 	  private int currentSquareIndex = -1;
+	  private boolean finished = false;
 
 	public Board(int width, int height) {
 		setBackground(Color.WHITE);
@@ -61,14 +62,25 @@ public class Board extends JPanel implements MouseMotionListener {
 		        currentSquareIndex = getSquare(x, y);
 		        if (currentSquareIndex < 0) // not inside a square
 		          add(x, y);
+		        else if(squares[0].contains(x,y))
+		        {
+		        	finished = true;
+		        	repaint();
+		        }
+		        
 		      }
 
 		      public void mouseClicked(MouseEvent evt) {
 		        int x = evt.getX();
 		        int y = evt.getY();
+		        currentSquareIndex = getSquare(x, y);
+		        
+		        	
 
 		        if (evt.getClickCount() >= 2) {
-		          remove(currentSquareIndex);
+		        	
+		        		remove(currentSquareIndex);
+		        	
 		        }
 		      }
 		    });
@@ -84,6 +96,10 @@ public class Board extends JPanel implements MouseMotionListener {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(star, x / 2 - star.getWidth(null) / 2, y / 2
 				- star.getHeight(null) / 2, null);
+		if (finished  == true){
+			g2d.setColor(Color.RED);
+			g2d.drawLine(squares[0].x, squares[0].y, squares[squareCount-1].x, squares[squareCount-1].y);
+			}
 		
 		
 		for (int i = 0; i < squareCount; i++)
@@ -146,9 +162,7 @@ public class Board extends JPanel implements MouseMotionListener {
 	    if (n < 0 || n >= squareCount)
 	      return;
 	    
-	    for (int i = squareCount; i > n;i--){
-	    	squares[i] = squares[i-1];
-	    }
+	    
 	    squareCount--;
 	    //squares[n] = squares[squareCount];
 	    if (currentSquareIndex == n)
@@ -180,6 +194,18 @@ public class Board extends JPanel implements MouseMotionListener {
 	      g.dispose();
 	      repaint();
 	    }
+	  }
+	  
+	  public String getFileName(){
+		  return fileName;
+	  }
+	  
+	  public int getSquareCount(){
+		  return squareCount;
+	  }
+	  
+	  public Rectangle[] getSquares(){
+		  return squares;
 	  }
 	
 }

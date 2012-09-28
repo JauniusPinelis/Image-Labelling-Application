@@ -14,6 +14,7 @@ public class Main extends JFrame {
 	
 	Board board;
 	int width, height;
+	TxtConvertor txtConvertor; // im bad with names
 
 
     public Main() {
@@ -36,6 +37,7 @@ public class Main extends JFrame {
     private final void setVariables(){
     	width = 800; // size of the main window
     	height = 640;
+    	txtConvertor = new TxtConvertor();
     }
     
     public final void initMenus(){
@@ -66,8 +68,19 @@ public class Main extends JFrame {
 			}
     	});
     	
-    	fileMenu.add(openImaItem);
+    	JMenuItem saveTxtItem= new JMenuItem("Save as .txt file");
+    	saveTxtItem.setMnemonic(KeyEvent.VK_S);
+    	saveTxtItem.setToolTipText("Save as .txt file");
+    	saveTxtItem.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				TxtConvertor.writeLine(board.getFileName(), board.getSquareCount(), board.getSquares());
+			}
+    	});
     	
+    	fileMenu.add(openImaItem);
+    	fileMenu.add(saveTxtItem);
     	fileMenu.add(exitMenuItem);
     	
     	menubar.add(fileMenu);
