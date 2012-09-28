@@ -14,7 +14,6 @@ public class Main extends JFrame {
 	
 	Board board;
 	int width, height;
-	
 
 
     public Main() {
